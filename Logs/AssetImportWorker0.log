@@ -1803,3 +1803,4 @@ Received Import Request.
 Start importing Assets/Prefabs/playerWarrior.prefab using Guid(2fd12e95b10b02948935df07c943ff11) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1a35978887d177b83e7c62666374d20c') in 0.071537 seconds 
   Import took 0.077379 seconds .
 
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
