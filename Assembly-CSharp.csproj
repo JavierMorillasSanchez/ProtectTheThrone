@@ -56,14 +56,18 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Orco1.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Orco1.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController2D.cs" />
+    <Compile Include="Assets\Scripts\Player\Hacha.cs" />
+    <Compile Include="Assets\Scripts\Enviroment\Estructuras.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Orco2.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Troll.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Enemigo.cs" />
+    <Compile Include="Assets\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Scripts\Player\HealthController.cs" />
     <Compile Include="Assets\Scripts\Player\CameraFollow.cs" />
-    <Compile Include="Assets\Scripts\Enemigo.cs" />
-    <Compile Include="Assets\Estructuras.cs" />
-    <Compile Include="Assets\Scripts\Orco2.cs" />
-    <Compile Include="Assets\Scripts\Troll.cs" />
+    <Compile Include="Assets\Scripts\Enemies\ArmaEnemiga.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Spawn.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

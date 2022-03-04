@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1617945811392774209}
   - component: {fileID: 1617945811392774210}
-  - component: {fileID: 1617945811392774211}
+  - component: {fileID: 6414218599189964454}
   - component: {fileID: 1617945811392774239}
   - component: {fileID: 1513618903462087297}
   m_Layer: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1617945811392774211
+--- !u!114 &6414218599189964454
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,11 +94,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1617945811392774212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a7261a5b08425e44bc3b0e6da8b248d, type: 3}
+  m_Script: {fileID: 11500000, guid: 50435d86b5fc6d64c9c1bfd06230457d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  rb: {fileID: 1617945811392774239}
+  rb: {fileID: 0}
+  enemigos: []
+  anim: {fileID: 0}
+  hacha: {fileID: 0}
 --- !u!50 &1617945811392774239
 Rigidbody2D:
   serializedVersion: 4
