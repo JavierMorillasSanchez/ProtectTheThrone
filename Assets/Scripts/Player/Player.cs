@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     //Aqui está el script del movimiento del personaje en 2d Top-Down
-
     public float moveSpeed = 10f;
     float move = 0;
 
@@ -19,10 +19,12 @@ public class Player : MonoBehaviour
     public float volteretaRecarga = 1f;
     bool voltereta = false;
     bool puedeVoltereta = true;
+    bool run = false;
 
     public int impulso;
 
     public bool inmune = false;
+    public bool muerte = false;
 
     public Rigidbody2D rb;
     Vector2 movement;
@@ -40,9 +42,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (muerte) return;
         if (voltereta) return;
 
-        if (!this.anim.GetCurrentAnimatorStateInfo(0).IsName("Ataque"))
+        if (!this.anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             Movimiento();
         }
@@ -53,15 +56,35 @@ public class Player : MonoBehaviour
         }
 
         Combate();
+        Vida();
+    }
+
+    private void Vida()
+    {
+        if (vida<=0)
+        {
+            inmune = true;
+            muerte = true;
+            movement.x = 0;
+            movement.y = 0;
+            anim.Play("Die");
+            StartCoroutine(Fin());
+        }
+    }
+
+    IEnumerator Fin()
+    {
+        yield return new WaitForSeconds(5);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void Combate()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.P))
         {
-            if (!this.anim.GetCurrentAnimatorStateInfo(0).IsName("Ataque"))
+            if (!this.anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
             {
-                anim.SetBool("Ataque", true);
+                anim.Play("Attack");
             }
         }
     }
@@ -74,21 +97,52 @@ public class Player : MonoBehaviour
         movement = Vector2.ClampMagnitude(movement, 1);
 
         if (Input.GetKey(KeyCode.LeftShift))
+        {
             moveSpeed = runSpeed;
+            run = true;
+        }
         else
+        {
             moveSpeed = move;
+            run = false;
+        }
 
         if (movement.x > 0.1f)
+        {
             transform.localScale = new Vector3(1, 1, 1);
+            if (!run)
+                anim.Play("Walk");
+            else
+                anim.Play("Run");
+        }
         else if (movement.x < -0.1f)
+        {
             transform.localScale = new Vector3(-1, 1, 1);
+            if (!run)
+                anim.Play("Walk");
+            else
+                anim.Play("Run");
+        }
+        else if (movement.y < -0.1f || movement.y > 0.1f)
+        {
+            if (!run)
+                anim.Play("Walk");
+            else
+                anim.Play("Run");
+        }
+        else
+        {
+            anim.Play("Idle");
+        }
+            
 
-        if (Input.GetMouseButtonDown(1) && puedeVoltereta)
+        if ((Input.GetMouseButtonDown(1) ||Input.GetKeyDown(KeyCode.O)) && puedeVoltereta)
         {
             voltereta = true;
             puedeVoltereta = false;
             moveSpeed = move;
-            anim.SetBool("Voltereta", true);
+            anim.Play("Dodge");
+            inmune = true;
             StartCoroutine(Voltereta());
         }
 
@@ -100,13 +154,13 @@ public class Player : MonoBehaviour
     IEnumerator Voltereta()
     {
         moveSpeed += volteretaVelocidad;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.4f);
         moveSpeed -= volteretaVelocidad;
         voltereta = false;
-        anim.SetBool("Voltereta", false);
+        inmune = false;
+        anim.Play("Idle");
         yield return new WaitForSeconds(volteretaRecarga);
         puedeVoltereta = true;
-
     }
 
     private void FixedUpdate()
@@ -144,11 +198,10 @@ public class Player : MonoBehaviour
 
     public void InicioAtaque()
     {
-        hacha.GetComponentInChildren<Collider2D>().enabled = true;
+        
     }
     public void FinAtaque()
     {
-        hacha.GetComponentInChildren<Collider2D>().enabled = false;
-        anim.SetBool("Ataque", false);
+        anim.Play("Idle");
     }
 }

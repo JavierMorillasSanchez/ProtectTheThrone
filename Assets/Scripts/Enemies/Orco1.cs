@@ -13,7 +13,6 @@ public class Orco1 : Enemigo
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        
     }
     void Start()
     {

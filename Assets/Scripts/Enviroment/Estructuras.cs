@@ -5,11 +5,14 @@ using UnityEngine;
 public class Estructuras : MonoBehaviour
 {
     public static Estructuras instance;
-    public GameObject[] estructuras;
+    public List<GameObject> estructuras = new List<GameObject>();
 
     private void Awake()
     {
         instance = this;
-        estructuras = GameObject.FindGameObjectsWithTag("Estructura");
+        foreach (GameObject e in GameObject.FindGameObjectsWithTag("Estructura"))
+        {
+            estructuras.Add(e);
+        }
     }
 }

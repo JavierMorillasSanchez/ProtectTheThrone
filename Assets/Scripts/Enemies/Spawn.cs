@@ -8,7 +8,7 @@ public class Spawn : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("NuevoOrco", 2, 2);
+        InvokeRepeating("NuevoOrco", 3, 3);
     }
 
     private void NuevoOrco()

@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Enemies\Orco1.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController2D.cs" />
     <Compile Include="Assets\Scripts\Player\Hacha.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Spawn.cs" />
     <Compile Include="Assets\Scripts\Enviroment\Estructuras.cs" />
     <Compile Include="Assets\Scripts\Enemies\Orco2.cs" />
     <Compile Include="Assets\Scripts\Enemies\Troll.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Assets\Scripts\Player\HealthController.cs" />
     <Compile Include="Assets\Scripts\Player\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Enemies\ArmaEnemiga.cs" />
-    <Compile Include="Assets\Scripts\Enemies\Spawn.cs" />
+    <Compile Include="Assets\Estructura.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
