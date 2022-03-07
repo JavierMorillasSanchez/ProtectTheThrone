@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -126,11 +126,13 @@ MonoBehaviour:
   defensa: 3
   vida: 15
   distanciaDeteccion: 0
+  impulso: 0
   estructuraDetectada: 0
   agent: {fileID: 0}
   player: {fileID: 0}
   anim: {fileID: 0}
   inmune: 0
+  ataque: 0
 --- !u!50 &1560240779885561806
 Rigidbody2D:
   serializedVersion: 4
