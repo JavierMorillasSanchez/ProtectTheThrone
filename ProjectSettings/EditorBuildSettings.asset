@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/IA.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/startMenu.unity
+    guid: d126eb57e70ab8d41b4a6cf2f0e4c420
+  - enabled: 1
+    path: Assets/Scenes/mainMenu.unity
+    guid: 0e1d16a22ddd2a94dbf97ed656a6b5b5
+  - enabled: 1
+    path: Assets/Scenes/Castillo.unity
+    guid: 1d7305a0dab0f074b9c5e1c95913ee21
+  - enabled: 1
+    path: Assets/Scenes/youFailMenu.unity
+    guid: 2bbb56de106785c4f9178827e0852440
+  - enabled: 1
+    path: Assets/Scenes/youWonMenu.unity
+    guid: 2e17b5f797d89e84294dec78371477b4
   m_configObjects: {}

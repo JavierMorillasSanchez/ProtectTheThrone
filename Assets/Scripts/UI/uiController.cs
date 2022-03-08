@@ -5,12 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class uiController : MonoBehaviour
 {
+    public static uiController instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
     public void startStartMenu()
     {
 
         SceneManager.LoadScene("startMenu");
-
-
     }
 
     public void startYouFailMenu()
@@ -37,7 +41,7 @@ public class uiController : MonoBehaviour
     public void startCastle()
     {
 
-        SceneManager.LoadScene("Castle");
+        SceneManager.LoadScene("Castillo");
 
     }
 
@@ -47,15 +51,4 @@ public class uiController : MonoBehaviour
         Application.Quit();
 
     }
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -24,7 +24,8 @@ public class ArmaEnemiga : MonoBehaviour
     {
         if(objetivo==0)
         {
-            collision.GetComponent<Estructura>().vida-= GetComponentInParent<Enemigo>().daño - collision.GetComponent<Estructura>().defensa;
+            collision.GetComponent<Estructura>().vida-= 
+                Mathf.Clamp(GetComponentInParent<Enemigo>().daño - collision.GetComponent<Estructura>().defensa,1,1000);
             if (collision.GetComponent<Estructura>().vida <= 0)
             {
                 Estructuras.instance.estructuras.Remove(collision.gameObject);
@@ -34,13 +35,15 @@ public class ArmaEnemiga : MonoBehaviour
         }
         else
         {
-            collision.GetComponent<Player>().vida -= GetComponentInParent<Enemigo>().daño - collision.GetComponent<Player>().defensa;
+            collision.GetComponent<Player>().vida -= 
+                Mathf.Clamp(GetComponentInParent<Enemigo>().daño - collision.GetComponent<Player>().defensa,1,1000);
             collision.GetComponent<Player>().enabled = false;
             Vector3 dir = collision.transform.position - transform.parent.position;
             dir = dir.normalized;
             collision.GetComponent<Rigidbody2D>().AddForce(dir * GetComponentInParent<Enemigo>().impulso);
             collision.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
             collision.GetComponent<Animator>().Play("Hurt");
+            SoundManager.instance.SoundPlay(collision.GetComponent<AudioSource>(), collision.GetComponent<Player>().hurt);
 
             yield return new WaitForSeconds(0.2f);
             collision.GetComponent<Player>().enabled = true;

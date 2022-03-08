@@ -19,13 +19,20 @@ public class Enemigo : MonoBehaviour
     public GameObject player;
     public Animator anim;
 
+    public bool muerte = false;
     public bool inmune = false;
+    public bool inmuneTrampa = false;
     public bool ataque = false;
+
+    public AudioClip hurt;
+    public AudioClip die;
+
+    protected NavMeshPath navMeshPath;
 
     public void Movimiento()
     {
         //Establecemos la ruta del enemigo y atacamos si estamos cerca
-        if (Vector2.Distance(transform.position, destino) > 5 && !ataque)
+        if (Vector2.Distance(transform.position, destino) > 6 && !ataque)
         {
             if (GetComponent<NavMeshAgent>().isActiveAndEnabled)
             {
@@ -36,17 +43,36 @@ public class Enemigo : MonoBehaviour
 
             if (agent.hasPath)
             {
-
-                if (agent.path.corners[1].x > transform.position.x)
-                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-                else if (agent.path.corners[1].x < transform.position.x)
-                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1, transform.localScale.y, transform.localScale.z);
+                if(agent.path.corners.Length>0)
+                {
+                    if (agent.path.corners[1].x > transform.position.x)
+                        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                    else if (agent.path.corners[1].x < transform.position.x)
+                        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * -1, transform.localScale.y, transform.localScale.z);
+                }
             }
         }
         else
         {
             if(!ataque)
                 StartCoroutine(Ataque());
+        }
+    }
+
+    public void Vida()
+    {
+        if (vida <= 0)
+        {
+            muerte = true;
+            anim.Play("Die");
+            SoundManager.instance.SoundPlay(GetComponent<AudioSource>(), die);
+            SpawnManager.instance.orcos--;
+            if(agent.isActiveAndEnabled)
+                agent.isStopped = true;
+            foreach (var c in GetComponents<Collider2D>())
+            {
+                c.enabled = false;
+            }
         }
     }
 
@@ -57,7 +83,19 @@ public class Enemigo : MonoBehaviour
             agent.isStopped = true;
         anim.Play("Attack");
         yield return new WaitForSecondsRealtime(0.5f);
-        anim.Play("Idle");
+        if (!muerte)
+            anim.Play("Idle");
         ataque = false;
+    }
+
+    public IEnumerator trampa(int ataque)
+    {
+        vida -= Mathf.Clamp(ataque - defensa,3,1000);
+        SoundManager.instance.SoundPlay(GetComponent<AudioSource>(), hurt);
+        inmuneTrampa = true;
+        GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+        yield return new WaitForSeconds(0.75f);
+        inmuneTrampa = false;
+        GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
     }
 }

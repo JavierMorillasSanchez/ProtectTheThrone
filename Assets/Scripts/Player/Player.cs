@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    //Aqui está el script del movimiento del personaje en 2d Top-Down
+    public static Player instance;
+
     public float moveSpeed = 10f;
     float move = 0;
 
@@ -14,6 +15,7 @@ public class Player : MonoBehaviour
     public int fuerza = 3;
     public int defensa = 3;
     public int vida = 15;
+    public int vidaMax;
 
     public float volteretaVelocidad = 40f;
     public float volteretaRecarga = 1f;
@@ -24,6 +26,7 @@ public class Player : MonoBehaviour
     public int impulso;
 
     public bool inmune = false;
+    public bool inmuneTrampa = false;
     public bool muerte = false;
 
     public Rigidbody2D rb;
@@ -32,9 +35,15 @@ public class Player : MonoBehaviour
     public Animator anim;
     public GameObject hacha;
 
+    public AudioClip hurt;
+    public AudioClip die;
+
 
     private void Awake()
     {
+        instance = this;
+
+        vidaMax = vida;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         move = moveSpeed;
@@ -68,6 +77,7 @@ public class Player : MonoBehaviour
             movement.x = 0;
             movement.y = 0;
             anim.Play("Die");
+            SoundManager.instance.SoundPlay(GetComponent<AudioSource>(), die);
             StartCoroutine(Fin());
         }
     }
@@ -177,23 +187,32 @@ public class Player : MonoBehaviour
         enemigo.GetComponent<Rigidbody2D>().angularVelocity = 0;
         enemigo.GetComponent<Rigidbody2D>().AddForce(dir * impulso);
 
-        enemigo.GetComponent<Enemigo>().vida -= fuerza - enemigo.GetComponent<Enemigo>().defensa;
-
+        enemigo.GetComponent<Enemigo>().vida -= Mathf.Clamp(fuerza - enemigo.GetComponent<Enemigo>().defensa,1,1000);
 
         enemigo.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
         enemigo.GetComponent<NavMeshAgent>().enabled = false;
         enemigo.GetComponent<Animator>().Play("Hurt");
+        SoundManager.instance.SoundPlay(enemigo.GetComponent<AudioSource>(), enemigo.GetComponent<Enemigo>().hurt);
         enemigo.GetComponent<Enemigo>().inmune = true;
         yield return new WaitForSeconds(0.5f);
         enemigo.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
         if (enemigo.GetComponent<Enemigo>().vida <= 0)
         {
-            enemigo.GetComponent<Animator>().Play("Die");
-            enemigo.GetComponent<Collider2D>().enabled = false;
             yield break;
         }
         enemigo.GetComponent<NavMeshAgent>().enabled = true;
         enemigo.GetComponent<Enemigo>().inmune = false;
+    }
+
+    public IEnumerator trampa(int ataque)
+    {
+        vida -= Mathf.Clamp(ataque - defensa, 3, 1000);
+        SoundManager.instance.SoundPlay(GetComponent<AudioSource>(), hurt);
+        inmuneTrampa = true;
+        GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+        yield return new WaitForSeconds(0.75f);
+        inmuneTrampa = false;
+        GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
     }
 
     public void InicioAtaque()
