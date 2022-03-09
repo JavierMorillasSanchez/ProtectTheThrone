@@ -84,8 +84,8 @@ public class Player : MonoBehaviour
 
     IEnumerator Fin()
     {
-        yield return new WaitForSeconds(5);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        yield return new WaitForSeconds(3);
+        uiController.instance.startYouFailMenu();
     }
 
     private void Combate()
